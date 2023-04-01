@@ -70,7 +70,7 @@ export function Force({}: Props) {
     <>
       <ForceDescription data={forceData} />
       <ForcePersonnel data={personnelData} />
-      <ForceNeighbourhoods data={neighbourhoodsData} />
+      <ForceNeighbourhoods data={neighbourhoodsData} forceId={forceId} />
     </>
   );
 }

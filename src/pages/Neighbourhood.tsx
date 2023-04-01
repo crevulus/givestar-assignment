@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { fetchNeighbourhood } from "../utils/networkCalls";
 import { NeighbourhoodDetailsType } from "../data/types";
-import { Link, List, ListItem, Typography } from "@mui/material";
+import { Link, Typography } from "@mui/material";
 import { sanitizeHtml } from "../utils/sanitizeHtml";
+import { Link as RouterLink } from "react-router-dom";
 
 type Props = {};
 
@@ -27,17 +28,10 @@ export function Neighbourhood({}: Props) {
         }}
       />
       {!!data.url_force ? (
-        <Link component="button" variant="body2" href={data.url_force}>
+        <Link component={RouterLink} variant="body2" to={data.url_force}>
           Visit our webpage
         </Link>
       ) : null}
-      <Typography>
-        Put a map here!
-        <List>
-          <ListItem>1. Hook up to google maps API</ListItem>
-          <ListItem>2. Use data.centre for lat/long values </ListItem>
-        </List>
-      </Typography>
     </>
   );
 }

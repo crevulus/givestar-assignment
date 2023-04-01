@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { PersonnelType } from "../../data/types";
 import { sanitizeHtml } from "../../utils/sanitizeHtml";
 import { Typography } from "@mui/material";
@@ -12,7 +13,7 @@ export function ForcePersonnel({ data }: Props) {
       {data && Object.keys(data).length > 0 ? (
         <>
           {data.map((personnel) => (
-            <>
+            <Fragment key={personnel.name}>
               <Typography>{personnel.name}</Typography>
               {personnel.bio ? (
                 <Typography
@@ -22,7 +23,7 @@ export function ForcePersonnel({ data }: Props) {
                   }}
                 />
               ) : null}
-            </>
+            </Fragment>
           ))}
         </>
       ) : null}
