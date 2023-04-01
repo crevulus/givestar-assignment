@@ -8,11 +8,12 @@ import { Input } from "../components/Input";
 import { useContext, useMemo } from "react";
 import { AppContext } from "../data/AppContext";
 import useDebounce from "../hooks/useDebounce";
+import { useFilterData } from "../hooks/useFilterData";
 
 type Props = {};
 
 export default function Home({}: Props) {
-  const { searchValue } = useContext(AppContext);
+  const { searchValue, setSearchValue } = useContext(AppContext);
   const debouncedSearchValue = useDebounce(searchValue, 200);
 
   const { data, error, isLoading } = useQuery<ForceType[]>({
@@ -22,25 +23,19 @@ export default function Home({}: Props) {
 
   useFetchingUi({ isLoading, error });
 
-  const filteredForces = useMemo(() => {
-    if (!data) return;
+  const filteredForces = useFilterData({
+    data,
+    field: "name",
+    value: debouncedSearchValue,
+  });
 
-    if (!searchValue) return data;
-
-    return data.filter((force) =>
-      force.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
-    );
-  }, [debouncedSearchValue]);
-
-  if (!filteredForces) {
-    return null;
-  }
+  const forcesData = filteredForces ?? data;
 
   return (
     <>
-      <Input />
-      {filteredForces.length > 0
-        ? filteredForces.map((force: ForceType) => (
+      <Input handleChange={setSearchValue} />
+      {!!forcesData && forcesData.length > 0
+        ? forcesData.map((force: ForceType) => (
             <ForceCard force={force} key={force.id} />
           ))
         : null}

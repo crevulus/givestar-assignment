@@ -12,6 +12,9 @@ export const queryClient = new QueryClient();
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
+  const [filterNeighbourhoodsValue, setFilterNeighbourhoodsValue] =
+    useState("");
+
   return (
     <div className="App">
       <QueryClientProvider client={queryClient}>
@@ -19,10 +22,12 @@ function App() {
           value={{
             searchValue,
             setSearchValue,
+            filterNeighbourhoodsValue,
+            setFilterNeighbourhoodsValue,
           }}
         >
-          <Nav />
           <BrowserRouter>
+            <Nav />
             <Routes>
               <Route path={Paths.HOME} element={<Home />} />
               <Route path={Paths.FORCE_DYNAMIC} element={<Force />} />

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   fetchForce,
@@ -14,11 +14,20 @@ import {
 } from "../data/types";
 import { Typography } from "@mui/material";
 import { sanitizeHtml } from "../utils/normaliseHtml";
+import { Input } from "../components/Input";
+import { AppContext } from "../data/AppContext";
+import { useFilterData } from "../hooks/useFilterData";
+import useDebounce from "../hooks/useDebounce";
+import ForceDescription from "../components/ForcePageComponents/ForceDescription";
+import ForcePersonnel from "../components/ForcePageComponents/ForcePersonnel";
+import ForceNeighbourhoods from "../components/ForcePageComponents/ForceNeighbourhoods";
 
 type Props = {};
 
 export default function Force({}: Props) {
   const { forceId } = useParams();
+  const { filterNeighbourhoodsValue } = useContext(AppContext);
+  const debouncedSearchValue = useDebounce(filterNeighbourhoodsValue, 200);
 
   const {
     data: forceData,
@@ -39,7 +48,7 @@ export default function Force({}: Props) {
   });
 
   const {
-    data: neighbourhoodsData,
+    data: rawNeighbourhoodsData,
     isLoading: neighbourhoodsIsLoading,
     error: neighbourhoodsError,
   } = useQuery<NeighbourhoodType[]>({
@@ -52,47 +61,19 @@ export default function Force({}: Props) {
     error: forceError || personnelError || neighbourhoodsError,
   });
 
+  const filteredNeighbourhoods = useFilterData({
+    data: rawNeighbourhoodsData,
+    field: "name",
+    value: debouncedSearchValue,
+  });
+
+  const neighbourhoodsData = filteredNeighbourhoods ?? rawNeighbourhoodsData;
+
   return (
     <>
-      {forceData && Object.keys(forceData).length > 0 ? (
-        <>
-          <Typography variant="h1">{forceData.name}</Typography>
-          {forceData.description ? (
-            <Typography
-              variant="body1"
-              dangerouslySetInnerHTML={{
-                __html: sanitizeHtml(forceData.description),
-              }}
-            />
-          ) : null}
-        </>
-      ) : null}
-      {personnelData && Object.keys(personnelData).length > 0 ? (
-        <>
-          {personnelData.map((personnel) => (
-            <>
-              <Typography>{personnel.name}</Typography>
-              {personnel.bio ? (
-                <Typography
-                  variant="body1"
-                  dangerouslySetInnerHTML={{
-                    __html: sanitizeHtml(personnel.bio),
-                  }}
-                />
-              ) : null}
-            </>
-          ))}
-        </>
-      ) : null}
-      {neighbourhoodsData && Object.keys(neighbourhoodsData).length > 0 ? (
-        <>
-          {neighbourhoodsData.map((neighbourhood) => (
-            <>
-              <Typography>{neighbourhood.name}</Typography>
-            </>
-          ))}
-        </>
-      ) : null}
+      <ForceDescription data={forceData} />
+      <ForcePersonnel data={personnelData} />
+      <ForceNeighbourhoods data={neighbourhoodsData} />
     </>
   );
 }

@@ -1,33 +1,20 @@
-import { ChangeEvent, useContext, useMemo, useState } from "react";
-import useDebounce from "../hooks/useDebounce";
+import { ChangeEvent, useContext } from "react";
 import { TextField } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { queryClient } from "../App";
-import { ForceType } from "../data/types";
 import { AppContext } from "../data/AppContext";
 
-type Props = {};
+type Props = {
+  handleChange: (value: string) => void;
+};
 
-export function Input({}: Props) {
-  const { setSearchValue } = useContext(AppContext);
-  // const debouncedValue = useDebounce<string>(value, 100);
-
-  // const data = queryClient.getQueryData<ForceType[]>(["forces"]);
-
-  // const filteredForces = useMemo(() => {
-  //   if (!data) return;
-
-  //   return data.filter((force) => force.name.includes(debouncedValue));
-  // }, [debouncedValue]);
-
+export function Input({ handleChange }: Props) {
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
+    handleChange(e.target.value);
   };
 
   return (
     <TextField
       id="force-input"
-      label="Serch for a police force"
+      label="Search for a police force"
       variant="outlined"
       onChange={handleInput}
     />
