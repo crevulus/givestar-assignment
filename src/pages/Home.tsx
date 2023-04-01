@@ -10,12 +10,16 @@ import { useFetchingUi } from "../hooks/useFetchingUi";
 type Props = {};
 
 export default function Home({}: Props) {
-  const { data, error, isLoading } = useQuery({
+  const { data, error, isLoading } = useQuery<ForceType[]>({
     queryKey: ["forces"],
     queryFn: fetchForces,
   });
 
   useFetchingUi({ isLoading, error });
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <>
