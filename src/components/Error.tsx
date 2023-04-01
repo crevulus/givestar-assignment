@@ -1,7 +1,9 @@
-import React from "react";
+import { Box, Typography } from "@mui/material";
 
-type Props = {};
-
-export function Error({}: Props) {
-  return <div>Error</div>;
+export function Error() {
+  return (
+    <Box sx={{ display: "flex", flexGrow: 1 }}>
+      <Typography>Uh oh! Something went wrong.</Typography>
+    </Box>
+  );
 }

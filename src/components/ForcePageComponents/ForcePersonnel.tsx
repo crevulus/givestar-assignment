@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { PersonnelType } from "../../data/types";
 import { sanitizeHtml } from "../../utils/sanitizeHtml";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   data?: PersonnelType[];
@@ -9,12 +9,15 @@ type Props = {
 
 export function ForcePersonnel({ data }: Props) {
   return (
-    <>
+    <Box sx={{ mb: 4 }}>
+      <Typography variant="h4" color="secondary">
+        Force personnel
+      </Typography>
       {data && Object.keys(data).length > 0 ? (
         <>
           {data.map((personnel) => (
             <Fragment key={personnel.name}>
-              <Typography>{personnel.name}</Typography>
+              <Typography variant="h6">{personnel.name}</Typography>
               {personnel.bio ? (
                 <Typography
                   variant="body1"
@@ -26,7 +29,9 @@ export function ForcePersonnel({ data }: Props) {
             </Fragment>
           ))}
         </>
-      ) : null}
-    </>
+      ) : (
+        <Typography>No force personnel data available.</Typography>
+      )}
+    </Box>
   );
 }

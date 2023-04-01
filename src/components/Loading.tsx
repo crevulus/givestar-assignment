@@ -1,8 +1,9 @@
-import { CircularProgress } from "@mui/material";
-import React from "react";
+import { Box, CircularProgress } from "@mui/material";
 
-type Props = {};
-
-export function Loading({}: Props) {
-  return <CircularProgress />;
+export function Loading() {
+  return (
+    <Box sx={{ display: "flex", flexGrow: 1 }}>
+      <CircularProgress />
+    </Box>
+  );
 }

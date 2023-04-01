@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { ForceType } from "../data/types";
 import { Paths } from "../data/enum";
 import { generatePath } from "react-router-dom";

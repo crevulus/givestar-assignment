@@ -1,6 +1,6 @@
 import { ForceDetailsType } from "../../data/types";
 import { sanitizeHtml } from "../../utils/sanitizeHtml";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 type Props = {
   data?: ForceDetailsType;
@@ -8,10 +8,12 @@ type Props = {
 
 export function ForceDescription({ data }: Props) {
   return (
-    <>
+    <Box sx={{ mb: 4 }}>
       {data && Object.keys(data).length > 0 ? (
         <>
-          <Typography variant="h1">{data.name}</Typography>
+          <Typography variant="h4" color="secondary">
+            Force details
+          </Typography>
           {data.description ? (
             <Typography
               variant="body1"
@@ -19,9 +21,11 @@ export function ForceDescription({ data }: Props) {
                 __html: sanitizeHtml(data.description),
               }}
             />
-          ) : null}
+          ) : (
+            <Typography>No force description available.</Typography>
+          )}
         </>
       ) : null}
-    </>
+    </Box>
   );
 }

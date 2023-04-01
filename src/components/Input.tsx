@@ -1,6 +1,5 @@
-import { ChangeEvent, useContext } from "react";
+import { ChangeEvent } from "react";
 import { TextField } from "@mui/material";
-import { AppContext } from "../data/AppContext";
 
 type Props = {
   handleChange: (value: string) => void;
@@ -13,6 +12,8 @@ export function Input({ handleChange }: Props) {
 
   return (
     <TextField
+      sx={{ mt: 2, mb: 2 }}
+      fullWidth
       id="force-input"
       label="Search for a police force"
       variant="outlined"

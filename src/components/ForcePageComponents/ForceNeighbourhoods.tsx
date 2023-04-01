@@ -1,7 +1,7 @@
 import { Fragment, useContext, useMemo } from "react";
 import { NeighbourhoodType } from "../../data/types";
 import { sanitizeHtml } from "../../utils/sanitizeHtml";
-import { Link, List, ListItem } from "@mui/material";
+import { Box, Link, List, ListItem, Typography } from "@mui/material";
 import { Input } from "../Input";
 import { AppContext } from "../../data/AppContext";
 import { Link as RouterLink } from "react-router-dom";
@@ -31,6 +31,7 @@ const NeighbourhoodLink = ({ data, forceId }: NeighbourhoodLinkProps) => {
   return (
     <>
       <Link
+        variant="button"
         component={RouterLink}
         to={path}
         dangerouslySetInnerHTML={{
@@ -45,7 +46,10 @@ export function ForceNeighbourhoods({ data, forceId }: Props) {
   const { setFilterNeighbourhoodsValue } = useContext(AppContext);
 
   return (
-    <>
+    <Box sx={{ mb: 4 }}>
+      <Typography variant="h4" color="secondary">
+        Force neighbourhoods
+      </Typography>
       {data && Object.keys(data).length > 0 ? (
         <>
           <Input handleChange={setFilterNeighbourhoodsValue} />
@@ -57,7 +61,9 @@ export function ForceNeighbourhoods({ data, forceId }: Props) {
             ))}
           </List>
         </>
-      ) : null}
-    </>
+      ) : (
+        <Typography>No force neighbourhood data available.</Typography>
+      )}
+    </Box>
   );
 }

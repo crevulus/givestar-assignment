@@ -6,7 +6,6 @@ import {
   fetchNeighbourhoods,
   fetchPersonnel,
 } from "../utils/networkCalls";
-import { useFetchingUi } from "../hooks/useFetchingUi";
 import {
   ForceDetailsType,
   NeighbourhoodType,
@@ -18,10 +17,11 @@ import { useDebounce } from "../hooks/useDebounce";
 import { ForceDescription } from "../components/ForcePageComponents/ForceDescription";
 import { ForcePersonnel } from "../components/ForcePageComponents/ForcePersonnel";
 import { ForceNeighbourhoods } from "../components/ForcePageComponents/ForceNeighbourhoods";
+import { Loading } from "../components/Loading";
+import { Error } from "../components/Error";
+import { Container, Typography } from "@mui/material";
 
-type Props = {};
-
-export function Force({}: Props) {
+export function Force() {
   const { forceId } = useParams();
   const { filterNeighbourhoodsValue } = useContext(AppContext);
   const debouncedSearchValue = useDebounce(filterNeighbourhoodsValue, 200);
@@ -53,11 +53,6 @@ export function Force({}: Props) {
     queryFn: () => fetchNeighbourhoods(forceId),
   });
 
-  useFetchingUi({
-    isLoading: forceIsLoading || personnelIsLoading || neighbourhoodsIsLoading,
-    error: forceError || personnelError || neighbourhoodsError,
-  });
-
   const filteredNeighbourhoods = useFilterData({
     data: rawNeighbourhoodsData,
     field: "name",
@@ -66,11 +61,24 @@ export function Force({}: Props) {
 
   const neighbourhoodsData = filteredNeighbourhoods ?? rawNeighbourhoodsData;
 
+  if (forceIsLoading || personnelIsLoading || neighbourhoodsIsLoading) {
+    return <Loading />;
+  }
+
+  if (forceError || personnelError || neighbourhoodsError) {
+    return <Error />;
+  }
+
   return (
-    <>
+    <Container>
+      {forceData ? (
+        <Typography variant="h2" color="secondary">
+          {forceData.name}
+        </Typography>
+      ) : null}
       <ForceDescription data={forceData} />
       <ForcePersonnel data={personnelData} />
       <ForceNeighbourhoods data={neighbourhoodsData} forceId={forceId} />
-    </>
+    </Container>
   );
 }
