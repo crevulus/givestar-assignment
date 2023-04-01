@@ -29,3 +29,8 @@ export type PersonnelType = {
   name: string;
   rank: string;
 };
+
+export type NeighbourhoodType = {
+  id: string;
+  name: string;
+};

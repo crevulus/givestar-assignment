@@ -16,13 +16,13 @@ type Props = {
   force: ForceType;
 };
 
-export default function ForceCard({ force }: Props) {
+export function ForceCard({ force }: Props) {
   const path = useMemo(() => {
     return generatePath(Paths.FORCE_DYNAMIC, { forceId: force.id });
   }, [force.id]);
 
   return (
-    <Card>
+    <Card sx={{ maxWidth: "300px" }}>
       <CardContent>
         <Typography color="text.secondary" gutterBottom>
           {force.name}

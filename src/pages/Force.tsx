@@ -1,9 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { fetchForce, fetchPersonnel } from "../utils/networkCalls";
+import {
+  fetchForce,
+  fetchNeighbourhoods,
+  fetchPersonnel,
+} from "../utils/networkCalls";
 import { useFetchingUi } from "../hooks/useFetchingUi";
-import { ForceDetailsType, PersonnelType } from "../data/types";
+import {
+  ForceDetailsType,
+  NeighbourhoodType,
+  PersonnelType,
+} from "../data/types";
 import { Typography } from "@mui/material";
 import { sanitizeHtml } from "../utils/normaliseHtml";
 
@@ -30,16 +38,19 @@ export default function Force({}: Props) {
     queryFn: () => fetchPersonnel(forceId),
   });
 
-  useFetchingUi({
-    isLoading: forceIsLoading || personnelIsLoading,
-    error: forceError || personnelError,
+  const {
+    data: neighbourhoodsData,
+    isLoading: neighbourhoodsIsLoading,
+    error: neighbourhoodsError,
+  } = useQuery<NeighbourhoodType[]>({
+    queryKey: ["neighbourhoods", forceId],
+    queryFn: () => fetchNeighbourhoods(forceId),
   });
 
-  if (!personnelData) {
-    // for now just not showing anything if there's no response from BE
-    return null;
-  }
-  console.log(personnelData);
+  useFetchingUi({
+    isLoading: forceIsLoading || personnelIsLoading || neighbourhoodsIsLoading,
+    error: forceError || personnelError || neighbourhoodsError,
+  });
 
   return (
     <>
@@ -69,6 +80,15 @@ export default function Force({}: Props) {
                   }}
                 />
               ) : null}
+            </>
+          ))}
+        </>
+      ) : null}
+      {neighbourhoodsData && Object.keys(neighbourhoodsData).length > 0 ? (
+        <>
+          {neighbourhoodsData.map((neighbourhood) => (
+            <>
+              <Typography>{neighbourhood.name}</Typography>
             </>
           ))}
         </>
