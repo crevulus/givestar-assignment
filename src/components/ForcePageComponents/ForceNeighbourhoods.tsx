@@ -1,16 +1,26 @@
-import { Fragment, useContext } from "react";
-import { NeighbourhoodType, PersonnelType } from "../../data/types";
-import { sanitizeHtml } from "../../utils/normaliseHtml";
-import { Typography } from "@mui/material";
+import { Fragment, useContext, useMemo } from "react";
+import { NeighbourhoodType } from "../../data/types";
+import { sanitizeHtml } from "../../utils/sanitizeHtml";
+import { Link } from "@mui/material";
 import { Input } from "../Input";
 import { AppContext } from "../../data/AppContext";
+import { Link as RouterLink } from "react-router-dom";
+import { Paths } from "../../data/enum";
+import { generatePath } from "react-router-dom";
 
 type Props = {
   data?: NeighbourhoodType[];
 };
 
-export default function ForceNeighbourhoods({ data }: Props) {
+export function ForceNeighbourhoods({ data }: Props) {
   const { setFilterNeighbourhoodsValue } = useContext(AppContext);
+
+  const path = useMemo(() => {
+    return generatePath(Paths.NEIGHBOURHOOD_DYNAMIC, {
+      forceId: force.id,
+      neighbourhoodId,
+    });
+  }, [force.id]);
 
   return (
     <>
@@ -19,8 +29,12 @@ export default function ForceNeighbourhoods({ data }: Props) {
           <Input handleChange={setFilterNeighbourhoodsValue} />
           {data.map((neighbourhood) => (
             <Fragment key={neighbourhood.id}>
-              <Typography
-                variant="body1"
+              <Link
+                variant="h6"
+                component={RouterLink}
+                to={Paths.HOME}
+                sx={{ flexGrow: 1 }}
+                color="secondary"
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHtml(neighbourhood.name),
                 }}

@@ -2,6 +2,6 @@ import React from "react";
 
 type Props = {};
 
-export default function Error({}: Props) {
+export function Error({}: Props) {
   return <div>Error</div>;
 }

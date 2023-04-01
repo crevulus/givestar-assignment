@@ -7,7 +7,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Link,
   Typography,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";

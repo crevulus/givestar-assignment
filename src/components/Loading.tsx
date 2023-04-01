@@ -3,6 +3,6 @@ import React from "react";
 
 type Props = {};
 
-export default function Loading({}: Props) {
+export function Loading({}: Props) {
   return <CircularProgress />;
 }

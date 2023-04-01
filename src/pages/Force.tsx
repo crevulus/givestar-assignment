@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { Fragment, useContext, useState } from "react";
+import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import {
   fetchForce,
@@ -12,19 +12,16 @@ import {
   NeighbourhoodType,
   PersonnelType,
 } from "../data/types";
-import { Typography } from "@mui/material";
-import { sanitizeHtml } from "../utils/normaliseHtml";
-import { Input } from "../components/Input";
 import { AppContext } from "../data/AppContext";
 import { useFilterData } from "../hooks/useFilterData";
-import useDebounce from "../hooks/useDebounce";
-import ForceDescription from "../components/ForcePageComponents/ForceDescription";
-import ForcePersonnel from "../components/ForcePageComponents/ForcePersonnel";
-import ForceNeighbourhoods from "../components/ForcePageComponents/ForceNeighbourhoods";
+import { useDebounce } from "../hooks/useDebounce";
+import { ForceDescription } from "../components/ForcePageComponents/ForceDescription";
+import { ForcePersonnel } from "../components/ForcePageComponents/ForcePersonnel";
+import { ForceNeighbourhoods } from "../components/ForcePageComponents/ForceNeighbourhoods";
 
 type Props = {};
 
-export default function Force({}: Props) {
+export function Force({}: Props) {
   const { forceId } = useParams();
   const { filterNeighbourhoodsValue } = useContext(AppContext);
   const debouncedSearchValue = useDebounce(filterNeighbourhoodsValue, 200);

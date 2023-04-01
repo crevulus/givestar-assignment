@@ -29,3 +29,17 @@ export const fetchNeighbourhoods = async (id: string | undefined) => {
   const res = await fetch(`https://data.police.uk/api/${id}/neighbourhoods`);
   return res.json();
 };
+
+export const fetchNeighbourhood = async (
+  forceId: string | undefined,
+  neighbourhoodId: string | undefined
+) => {
+  if (!forceId || !neighbourhoodId) {
+    return;
+  }
+
+  const res = await fetch(
+    `https://data.police.uk/api/${forceId}/${neighbourhoodId}`
+  );
+  return res.json();
+};

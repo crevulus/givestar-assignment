@@ -1,18 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchForces } from "../utils/networkCalls";
 import { ForceType } from "../data/types";
-import { Link } from "react-router-dom";
 import { ForceCard } from "../components/ForceCard";
 import { useFetchingUi } from "../hooks/useFetchingUi";
 import { Input } from "../components/Input";
-import { useContext, useMemo } from "react";
+import { useContext } from "react";
 import { AppContext } from "../data/AppContext";
-import useDebounce from "../hooks/useDebounce";
+import { useDebounce } from "../hooks/useDebounce";
 import { useFilterData } from "../hooks/useFilterData";
 
 type Props = {};
 
-export default function Home({}: Props) {
+export function Home({}: Props) {
   const { searchValue, setSearchValue } = useContext(AppContext);
   const debouncedSearchValue = useDebounce(searchValue, 200);
 

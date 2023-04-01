@@ -1,12 +1,12 @@
 import { PersonnelType } from "../../data/types";
-import { sanitizeHtml } from "../../utils/normaliseHtml";
+import { sanitizeHtml } from "../../utils/sanitizeHtml";
 import { Typography } from "@mui/material";
 
 type Props = {
   data?: PersonnelType[];
 };
 
-export default function ForcePersonnel({ data }: Props) {
+export function ForcePersonnel({ data }: Props) {
   return (
     <>
       {data && Object.keys(data).length > 0 ? (

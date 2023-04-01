@@ -4,7 +4,7 @@ import { Paths } from "../data/enum";
 
 type Props = {};
 
-export default function Nav({}: Props) {
+export function Nav({}: Props) {
   return (
     <AppBar position="static">
       <Toolbar>
@@ -17,7 +17,6 @@ export default function Nav({}: Props) {
         >
           PoliceStar
         </Link>
-        <Button color="inherit">Learn More</Button>
       </Toolbar>
     </AppBar>
   );

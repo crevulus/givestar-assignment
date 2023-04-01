@@ -1,5 +1,5 @@
-import Error from "../components/Error";
-import Loading from "../components/Loading";
+import { Error } from "../components/Error";
+import { Loading } from "../components/Loading";
 
 type Props = {
   isLoading: boolean;
