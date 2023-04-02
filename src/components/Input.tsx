@@ -15,7 +15,7 @@ export function Input({ handleChange }: Props) {
       sx={{ mt: 2, mb: 2 }}
       fullWidth
       id="force-input"
-      label="Search for a police force"
+      label="Search"
       variant="outlined"
       onChange={handleInput}
     />

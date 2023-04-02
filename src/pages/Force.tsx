@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   fetchForce,
@@ -23,8 +23,16 @@ import { Container, Typography } from "@mui/material";
 
 export function Force() {
   const { forceId } = useParams();
-  const { filterNeighbourhoodsValue } = useContext(AppContext);
+  const { filterNeighbourhoodsValue, setFilterNeighbourhoodsValue } =
+    useContext(AppContext);
   const debouncedSearchValue = useDebounce(filterNeighbourhoodsValue, 200);
+
+  // remove search value on nav away/unmount
+  useEffect(() => {
+    return () => {
+      setFilterNeighbourhoodsValue("");
+    };
+  }, []);
 
   const {
     data: forceData,

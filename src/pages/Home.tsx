@@ -3,7 +3,7 @@ import { fetchForces } from "../utils/networkCalls";
 import { ForceType } from "../data/types";
 import { ForceCard } from "../components/ForceCard";
 import { Input } from "../components/Input";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "../data/AppContext";
 import { useDebounce } from "../hooks/useDebounce";
 import { useFilterData } from "../hooks/useFilterData";
@@ -14,6 +14,13 @@ import { Container, Grid } from "@mui/material";
 export function Home() {
   const { searchValue, setSearchValue } = useContext(AppContext);
   const debouncedSearchValue = useDebounce(searchValue, 200);
+
+  // remove search value on nav away/unmount
+  useEffect(() => {
+    return () => {
+      setSearchValue("");
+    };
+  }, []);
 
   const { data, error, isLoading } = useQuery<ForceType[]>({
     queryKey: ["forces"],
